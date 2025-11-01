@@ -25,7 +25,7 @@ jobs:
           flake8 src tests monitoring --max-line-length=100 --extend-ignore=E203,W503
       - name: Validate data
         run: |
-          python src/data/validate_data.py
+          python src/data/validation.py data/processed/train.csv
       - name: Run tests
         run: |
           pytest -q
