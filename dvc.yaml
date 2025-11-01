@@ -1,0 +1,28 @@
+stages:
+  prepare:
+    cmd: >
+      python src/data/make_dataset.py data/raw/UCI_Credit_Card.csv &&
+      python src/data/build_features.py data/raw/UCI_Credit_Card.csv data/processed/train.csv data/processed/test.csv --target default.payment.next.month &&
+      python src/data/validation.py data/processed/train.csv &&
+      python src/data/validation.py data/processed/test.csv
+    deps:
+      - src/data/make_dataset.py
+      - src/data/build_features.py
+      - src/data/validation.py
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+
+  train:
+    cmd: python src/models/train.py --params params.yaml
+    deps:
+      - src/models/train.py
+      - src/models/pipeline.py
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - params.yaml
+    outs:
+      - models/credit_default_model.pkl
+    metrics:
+      - metrics.json:
+          cache: false

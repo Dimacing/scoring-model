@@ -1,0 +1,14 @@
+data:
+  raw_path: data/raw/UCI_Credit_Card.csv
+  processed_train: data/processed/train.csv
+  processed_test: data/processed/test.csv
+  target: default.payment.next.month
+
+model:
+  test_size: 0.2
+  random_state: 42
+  algorithm: gradient_boosting
+
+mlflow:
+  tracking_uri: file:./mlruns
+  experiment_name: Credit_Default_Prediction
